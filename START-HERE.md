@@ -1,6 +1,6 @@
 # Run the complete Dvault migration copy
 
-Use Node.js **22**, npm and Git. Clone **https://github.com/Praful-7723/dvault-private-backup** while signed into the owner’s GitHub account. That private clone already includes the current app keys. For the public copy, clone https://github.com/Praful-7723/dvault-migration and paste the single migration unlock code once when startup asks. All variables are restored automatically.
+Use Node.js **22**, npm and Git. Clone **https://github.com/Praful-7723/dvault-migration** and paste the single migration unlock code once when startup asks. All app variables are restored automatically. The owner also has a private plaintext backup at https://github.com/Praful-7723/dvault-private-backup; access to it is optional for running the public copy.
 
 ## Open both terminals automatically
 

@@ -57,9 +57,16 @@ async function main() {
     assert.deepEqual(versions.map(({ digest }) => digest), [proofs[1].digest, proofs[0].digest]);
     const [docs] = await vault.listDocuments(ownerAddress, 0, 10);
     assert(docs.some((doc) => doc.id === id && doc.versionCount === 2n));
-    await assert.rejects(vault.connect(outsider).appendVersion.staticCall(id, 2, proofs[0].cid, proofs[0].digest), /NotOwner/);
-    await assert.rejects(vault.appendVersion.staticCall(id, 1, proofs[0].cid, proofs[0].digest), /RevisionChanged/);
-    await assert.rejects(vault.createDocument.staticCall(id, title, proofs[0].cid, proofs[0].digest), /DocumentExists/);
+    // Bundled artifacts contain the ABI but omit compiler debug information.
+    // Decode revert data with that ABI instead of relying on Hardhat's message.
+    const revertsWith = (name) => (error) => {
+        const data = error.data ?? error.error?.data ?? error.info?.error?.data;
+        try { return vault.interface.parseError(data)?.name === name; }
+        catch { return false; }
+    };
+    await assert.rejects(vault.connect(outsider).appendVersion.staticCall(id, 2, proofs[0].cid, proofs[0].digest), revertsWith("NotOwner"));
+    await assert.rejects(vault.appendVersion.staticCall(id, 1, proofs[0].cid, proofs[0].digest), revertsWith("RevisionChanged"));
+    await assert.rejects(vault.createDocument.staticCall(id, title, proofs[0].cid, proofs[0].digest), revertsWith("DocumentExists"));
 
     for (const [index, proof] of proofs.entries()) {
         const revision = index + 1;

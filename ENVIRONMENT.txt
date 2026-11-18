@@ -17,6 +17,7 @@ DVAULT_DEMO_TOKEN=                       Optional phone HTTPS access token
 DVAULT_PERSONAL_FONT=bundled             bundled, altamis, or kid-games (private previews)
 DVAULT_VERIFY_ORIGIN=http://127.0.0.1:4174  Optional verification-script target
 DVAULT_NO_OPEN=0                         Set 1 to suppress browser launch
+DVAULT_DEMO_WALLET=                      Optional public recipient address for local funding helper
 
 Chain ID 31337 is fixed by this local demo, not an extra required environment setting.
 Node launcher variables such as npm_execpath, CI, ComSpec and PATH are supplied by the OS/npm and are not app API keys. TLS values and tokens from the old Mac’s .dvault-demo/phone.env are preserved only in the private repository; default startup uses desktop HTTP.

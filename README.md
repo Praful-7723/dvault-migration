@@ -57,4 +57,4 @@ The old local blockchain was offline during backup. Fresh Hardhat nodes begin wi
 
 Read **AGENTS.md** first. `START-HERE.md` has the terminal instructions. `DVAULT_NO_OPEN=1` suppresses browser launch for automated checks. `npm run verify:contracts` checks encryption, version history and tamper rejection on a temporary in-process test chain with synthetic data.
 
-This setup is validated on the migration Mac. Windows launch plans are provided without Mac path dependencies; no physical Windows computer was available for a live run.
+Fresh-clone startup, saved configuration restoration, Pinata authentication and isolated crypto/contract checks passed on the migration Mac. See [the validation record](docs/MIGRATION-VALIDATION.md). Windows launch plans are provided without Mac path dependencies; no physical Windows computer was available for a live run.
