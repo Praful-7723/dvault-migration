@@ -1,0 +1,24 @@
+DVAULT PUBLIC CONFIGURATION REFERENCE
+
+The complete owner configuration, including actual Pinata values, is already in the PRIVATE migration clone: https://github.com/Praful-7723/dvault-private-backup
+The public migration clone bundles the actual values in encrypted form. Its startup asks for one migration unlock code and creates the local .env automatically. This file and .env.example list every application setting.
+
+PINATA_API_KEY=                         Required for IPFS if not using JWT
+PINATA_SECRET_API_KEY=                  Paired with PINATA_API_KEY
+PINATA_JWT=                             Alternative to the API-key pair; takes precedence
+PINATA_GATEWAY_URL=https://gateway.pinata.cloud/ipfs/
+DVAULT_IPFS_GATEWAY=                     Optional preferred ciphertext retrieval gateway
+LOCALHOST_RPC_URL=http://127.0.0.1:8545   Local blockchain RPC
+DVAULT_HTTP_PORT=4174                    HTTP preview port
+DVAULT_HTTPS_ORIGIN=                     Empty for desktop HTTP; phone TLS origin when configured
+DVAULT_HTTPS_CERT=                       Absolute path to that machine’s TLS certificate
+DVAULT_HTTPS_KEY=                        Absolute path to that machine’s TLS private key
+DVAULT_DEMO_TOKEN=                       Optional phone HTTPS access token
+DVAULT_PERSONAL_FONT=bundled             bundled, altamis, or kid-games (private previews)
+DVAULT_VERIFY_ORIGIN=http://127.0.0.1:4174  Optional verification-script target
+DVAULT_NO_OPEN=0                         Set 1 to suppress browser launch
+
+Chain ID 31337 is fixed by this local demo, not an extra required environment setting.
+Node launcher variables such as npm_execpath, CI, ComSpec and PATH are supplied by the OS/npm and are not app API keys. TLS values and tokens from the old Mac’s .dvault-demo/phone.env are preserved only in the private repository; default startup uses desktop HTTP.
+
+DVAULT_MIGRATION_PASSWORD=  Optional one-time unlock code for non-interactive setup. Do not commit an actual value.

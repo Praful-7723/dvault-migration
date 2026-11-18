@@ -1,0 +1,37 @@
+{
+  "name": "blockchain-drive",
+  "version": "1.0.0",
+  "description": "Mini Web3 Google Drive using Hardhat, Solidity, IPFS, Ethers.js, and MetaMask",
+  "main": "index.js",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "node": "node scripts/portable.js node",
+    "deploy": "node scripts/portable.js prepare && hardhat run scripts/deploy.js --network localhost --no-compile",
+    "sync:frontend": "node scripts/syncFrontendConfig.js",
+    "pinata:smoke": "npx hardhat run scripts/pinata-smoke.js --network localhost",
+    "smoke": "npx hardhat run scripts/smoke-test.js --network localhost",
+    "test": "echo \"No automated test suite configured\"",
+    "serve": "node scripts/serve.js",
+    "app": "node scripts/portable.js app",
+    "demo": "node scripts/portable.js demo",
+    "prepare:demo": "node scripts/portable.js prepare",
+    "bundle:artifacts": "node scripts/bundle-artifacts.js",
+    "verify:contracts": "node scripts/portable.js prepare && hardhat run scripts/verify-v2.js --no-compile",
+    "terminals": "node scripts/open-terminals.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.14.0",
+    "dotenv": "^17.3.1",
+    "ethers": "^6.16.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "hardhat": "^2.22.17"
+  },
+  "engines": {
+    "node": ">=22 <23"
+  }
+}

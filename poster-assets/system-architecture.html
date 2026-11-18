@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dvault System Architecture - Printable Diagram</title>
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #ffffff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .diag-container {
+    width: 380px;
+    border: 2px solid #8a2be2;
+    border-radius: 16px;
+    padding: 16px;
+    background: #faf9ff;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.12);
+  }
+  .diag-title {
+    text-align: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #4b0082;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    border-bottom: 2px dashed #d1c4e9;
+    padding-bottom: 8px;
+  }
+  .box {
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 8px 0;
+    text-align: center;
+    position: relative;
+  }
+  .box-user {
+    background: linear-gradient(135deg, #ede7f6, #d1c4e9);
+    border: 1.5px solid #7e57c2;
+  }
+  .box-user strong { color: #311b92; font-size: 13px; display: block; }
+  .box-user span { color: #512da8; font-size: 10px; }
+
+  .box-frontend {
+    background: #ffffff;
+    border: 1.5px solid #5c6bc0;
+  }
+  .box-frontend strong { color: #1a237e; font-size: 12px; display: block; }
+  .front-sub {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 6px;
+    gap: 4px;
+  }
+  .sub-pill {
+    background: #e8eaf6;
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #283593;
+    border: 1px solid #c5cae9;
+  }
+
+  .box-storage {
+    background: #e0f2f1;
+    border: 1.5px solid #00897b;
+  }
+  .box-storage strong { color: #004d40; font-size: 12px; display: block; }
+  .box-storage span { color: #00695c; font-size: 10px; }
+
+  .box-blockchain {
+    background: #fff3e0;
+    border: 1.5px solid #fb8c00;
+  }
+  .box-blockchain strong { color: #e65100; font-size: 12px; display: block; }
+  
+  .contract-pill {
+    background: #ffe0b2;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #bf360c;
+    margin: 4px 2px;
+    display: inline-block;
+    border: 1px solid #ffcc80;
+  }
+
+  .box-network {
+    background: #f3e5f5;
+    border: 1.5px solid #ab47bc;
+  }
+  .box-network strong { color: #4a148c; font-size: 12px; display: block; }
+  .box-network span { color: #6a1b9a; font-size: 10px; }
+
+  .arrow {
+    text-align: center;
+    color: #7e57c2;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 14px;
+    margin: 2px 0;
+  }
+  .label-tag {
+    font-size: 9px;
+    color: #616161;
+    font-style: italic;
+  }
+  @media print {
+    body { padding: 0; }
+    .diag-container { box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="diag-container">
+  <div class="diag-title">⚡ Dvault System Architecture ⚡</div>
+
+  <!-- USER -->
+  <div class="box box-user">
+    <strong>👤 Client / End-User</strong>
+    <span>MetaMask Wallet (Public Key: msg.sender)</span>
+  </div>
+
+  <div class="arrow">↓ <span class="label-tag">1. Connect & Select File</span></div>
+
+  <!-- FRONTEND -->
+  <div class="box box-frontend">
+    <strong>💻 Web3 DApp Layer (Ethers.js v6)</strong>
+    <div class="front-sub">
+      <div class="sub-pill">File Picker & UI</div>
+      <div class="sub-pill">Axios Pinata Client</div>
+      <div class="sub-pill">Contract Signer</div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: stretch; margin: 4px 0; gap: 8px;">
+    <!-- LEFT: IPFS -->
+    <div style="flex: 1; display: flex; flex-direction: column;">
+      <div class="arrow">↙ <span class="label-tag">2. Upload File</span></div>
+      <div class="box box-storage" style="flex: 1;">
+        <strong>🌐 IPFS (Pinata)</strong>
+        <span>Off-chain Storage</span>
+        <div style="background:#b2dfdb; border-radius:4px; padding:2px 4px; font-size:8.5px; font-weight:700; color:#004d40; margin-top:4px;">
+          Returns CID Hash (Qm...)
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: BLOCKCHAIN -->
+    <div style="flex: 1; display: flex; flex-direction: column;">
+      <div class="arrow">↘ <span class="label-tag">3. Sign Transaction</span></div>
+      <div class="box box-blockchain" style="flex: 1;">
+        <strong>📜 Smart Contracts</strong>
+        <span>Solidity 0.8.24</span>
+        <div class="contract-pill">FileStorage.sol</div>
+        <div class="contract-pill">AccessControl.sol</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓ <span class="label-tag">4. Commit State & Emit Events</span></div>
+
+  <!-- LEDGER -->
+  <div class="box box-network">
+    <strong>⛓️ Ethereum Localhost Node (Hardhat)</strong>
+    <span>Chain ID: 31337 | Immutable Proof of Ownership & Timestamp</span>
+  </div>
+</div>
+
+</body>
+</html>

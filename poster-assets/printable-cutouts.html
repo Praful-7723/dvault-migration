@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dvault Printable Cut-outs for Poster Chart</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 20px;
+    background: #f0f2f5;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+  }
+  .cutout-title {
+    text-align: center;
+    color: #4b0082;
+    border-bottom: 2px solid #7026e6;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+  .cutout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .cutout-card {
+    border: 1.5px dashed #9333ea;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    position: relative;
+    background: #faf8ff;
+  }
+  .cut-label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: #9333ea;
+    color: #fff;
+    font-size: 9.5px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* LOGO 3D */
+  .logo-3d {
+    width: 90px;
+    height: 90px;
+    margin: 10px auto;
+    background: linear-gradient(135deg, #111827, #1f2937 50%, #374151 100%);
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    border: 2.5px solid rgba(255,255,255,0.4);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+  .logo-inner {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 35%, #0f172a 55%, #94a3b8 80%, #ffffff 100%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+
+  /* TECH STACK ICONS */
+  .tech-grid-print {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+    gap: 8px;
+  }
+  .tech-box {
+    border: 1.5px solid #d1d5db;
+    border-radius: 10px;
+    padding: 10px 8px;
+    flex: 1;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .tech-box span {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #1f2937;
+    margin-top: 4px;
+  }
+
+  @media print {
+    body { background: #fff; margin: 0; }
+    .page { box-shadow: none; padding: 10mm; }
+    .print-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="cutout-title">
+    ✂️ DVAULT POSTER CUT-OUT SHEET (Print on A4 Paper, Cut along dashed lines, and Glue to Chart)
+  </div>
+
+  <div class="cutout-grid">
+    
+    <!-- 1. TOP HEADER LOGO (OPTION A: DARK BADGE) -->
+    <div class="cutout-card">
+      <span class="cut-label">✂️ TOP RIGHT LOGO (CHROME EMBLEM)</span>
+      <div class="logo-3d">
+        <div class="logo-inner"></div>
+      </div>
+      <strong style="font-size: 12px; color:#374151;">DVAULT 3D BADGE</strong>
+    </div>
+
+    <!-- 2. PROJECT SEAL (OPTION B) -->
+    <div class="cutout-card">
+      <span class="cut-label">✂️ WEB3 EMBLEM</span>
+      <div style="width: 90px; height: 90px; margin: 10px auto; border-radius: 50%; background: linear-gradient(135deg, #7026e6, #561bb8); display: grid; place-items: center; border: 3px solid #b4ff39; box-shadow: 0 8px 18px rgba(112,38,230,0.4);">
+        <span style="font-size: 32px;">⚡</span>
+      </div>
+      <strong style="font-size: 12px; color:#374151;">SMART CONTRACT VAULT</strong>
+    </div>
+
+  </div>
+
+  <!-- 3. TECH STACK ICONS CUTOUT -->
+  <div class="cutout-card" style="margin-top: 16px;">
+    <span class="cut-label">✂️ TECHNOLOGY STACK ROW (Paste under "TECHNOLOGY STACK")</span>
+    <div class="tech-grid-print">
+      <div class="tech-box">
+        <div style="font-size: 30px;">📜</div>
+        <span>Solidity</span>
+      </div>
+      <div class="tech-box">
+        <div style="font-size: 30px;">🌐</div>
+        <span>IPFS / Pinata</span>
+      </div>
+      <div class="tech-box">
+        <div style="font-size: 30px;">🦊</div>
+        <span>MetaMask</span>
+      </div>
+      <div class="tech-box">
+        <div style="font-size: 30px;">⚡</div>
+        <span>Ethers.js v6</span>
+      </div>
+      <div class="tech-box">
+        <div style="font-size: 30px;">🔨</div>
+        <span>Hardhat Node</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. SYSTEM ARCHITECTURE CUTOUT -->
+  <div class="cutout-card" style="margin-top: 16px;">
+    <span class="cut-label">✂️ SYSTEM ARCHITECTURE DIAGRAM (Paste under "SYSTEM ARCHITECTURE")</span>
+    <div style="text-align: center; padding: 6px;">
+      <iframe src="./system-architecture.html" style="width: 100%; height: 360px; border: none; overflow: hidden;"></iframe>
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button class="print-btn" onclick="window.print()" style="background:#7026e6; color:#fff; padding:12px 24px; font-weight:bold; border:none; border-radius:8px; cursor:pointer;">
+    🖨️ Print Cut-outs on A4 Paper
+  </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0a0d">
+    <meta name="description" content="A private document vault with a verifiable history.">
+    <title>Dvault — Confidential document history</title>
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" href="/v2/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/v2/assets/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/v2/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/v2/manifest.webmanifest">
+    <link rel="preload" href="/v2/assets/prototype.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="/v2/fonts.css">
+    <link rel="stylesheet" href="/v2/style.css">
+    <link rel="stylesheet" href="/v2/theme.css">
+    <script type="module" src="/v2/theme.mjs"></script>
+    <script defer src="/ethers.js"></script>
+    <script defer src="/v2/config.js"></script>
+    <script type="module" src="/v2/app.mjs"></script>
+    <script type="module" src="/v2/install.mjs"></script>
+</head>
+<body data-vault-state="guest">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="topbar">
+        <div class="shell topbar-inner">
+            <a class="brand" href="/v2/" aria-label="Dvault landing">
+                <img class="brand-mark" src="/v2/assets/brand-mark.png" width="34" height="34" alt="">
+                <span>dvault</span>
+            </a>
+            <div class="top-actions">
+                <button class="button button-small account-button" id="wallet-button" type="button" hidden>Connect wallet</button>
+                <button id="sound-toggle" class="button preference-button" type="button" aria-label="Mute interface sound" aria-pressed="false"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#sound"></use></svg></button>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light mode"><span class="theme-knob" aria-hidden="true"></span></button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <section id="welcome" class="hero" aria-labelledby="hero-heading" hidden><canvas id="landing-dither" aria-hidden="true"></canvas>
+            <div class="shell hero-inner">
+                <div class="hero-copy">
+                    <h1 id="hero-heading"><span class="title-line"><span>Private files.</span></span><span class="title-line"><em>Verifiable history.</em></span></h1>
+                    <p>Encrypt documents before upload. Save each version with a blockchain record you can verify.</p>
+                    <div class="hero-actions">
+                        <a class="button button-primary launch-button" id="enter-vault" href="/v2/app/">Enter Dvault</a>
+                    </div>
+                </div>
+                <div class="hero-image hero-image--cutout" aria-hidden="true">
+                    <div class="entry-poster"><div class="entry-medallion"><img id="entry-face" src="/v2/assets/icon-512.png" width="512" height="512" alt=""></div></div>
+                    <canvas id="entry-coin" aria-hidden="true"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="entry-transition" class="entry-transition" aria-labelledby="entry-heading" hidden>
+            <picture class="entry-orbit" aria-hidden="true">
+                <source media="(max-width:640px)" srcset="/v2/assets/vault-orbit-mobile.webp">
+                <img src="/v2/assets/vault-orbit.webp" alt="" width="1000" height="1000" fetchpriority="low">
+            </picture>
+            <div class="entry-status">
+                <h2 id="entry-heading" tabindex="-1">Opening Dvault</h2>
+                <span id="entry-registry-status" role="status"></span>
+                <div class="entry-progress" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <section id="app-frame" class="app-frame" aria-label="Dvault workspace" hidden>
+            <canvas id="workspace-dither" aria-hidden="true"></canvas>
+            <div class="app-content shell" id="app-content">
+                <div class="workspace-toolbar">
+                    <div class="workspace-indicators">
+                        <span id="workspace-state" class="workspace-state">Wallet disconnected</span>
+                        <span class="registry-indicator"><i aria-hidden="true"></i><span id="service-status" role="status">Checking registry</span></span>
+                        <button id="retry-connection" class="button button-small" type="button" hidden>Retry registry</button>
+                    </div>
+                    <button type="button" class="button button-small privacy-button" id="privacy-button"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#shield"></use></svg><span>Privacy &amp; recovery</span></button>
+                </div>
+                <p id="service-detail" class="workspace-alert" hidden></p>
+                <p id="wallet-feedback" class="workspace-alert" role="status"></p>
+
+                <section id="task-banner" class="task-banner" aria-label="Current save activity" role="status" aria-live="polite" aria-atomic="true" hidden>
+                    <span class="task-indicator" aria-hidden="true"></span>
+                    <div><strong id="task-title"></strong><p id="task-copy"></p></div>
+                    <button type="button" class="button button-primary" id="task-action">Review file</button>
+                </section>
+
+                <div class="workspace-grid">
+                    <section id="library" class="workspace-card workspace-documents" aria-labelledby="library-heading">
+                        <div class="workspace-card-heading"><h1 id="library-heading" tabindex="-1">Documents</h1></div>
+                        <div class="panel-body">
+                            <div class="library-actions">
+                                <button class="button button-small" id="lock-button" type="button" hidden>Lock vault</button>
+                                <button class="button button-primary" id="new-document" type="button" hidden><span>Add document</span><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#upload"></use></svg></button>
+                            </div>
+                        <div class="vault-panel">
+                            <div class="library-bar" id="library-bar" hidden>
+                                <label class="search"><span class="search-icon" aria-hidden="true"></span><input type="search" id="search" placeholder="Find a document" aria-label="Find a document" disabled></label>
+                                <span class="library-status" id="library-status"></span>
+                                <button id="refresh" class="button button-small" type="button" hidden>Refresh</button>
+                            </div>
+                            <button type="button" class="pending-document" id="pending-document" hidden>
+                                <span class="pending-file-mark" aria-hidden="true"></span>
+                                <span><strong id="pending-document-name">Encrypted file</strong><small id="pending-document-status">Awaiting blockchain proof</small></span>
+                                <span aria-hidden="true">↗</span>
+                            </button>
+                            <div id="empty" class="empty">
+                                <span class="metal-glyph" aria-hidden="true"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#file"></use></svg></span>
+                                <div><h2 id="empty-title">Vault access</h2><p id="empty-copy"></p></div>
+                                <button class="button button-primary" id="empty-action" type="button">Unlock vault</button>
+                            </div>
+                            <ul class="document-list" id="document-list" aria-label="Documents"></ul>
+                            <button class="button button-small more-button" id="more-documents" type="button" hidden>Load more</button>
+                            <p id="library-feedback" class="library-feedback" role="status"></p>
+                        </div>
+                        </div>
+                    </section>
+
+                    <section id="file-composer" class="workspace-card workspace-composer" aria-labelledby="composer-heading">
+                        <div class="workspace-card-heading"><h2 id="composer-heading" tabindex="-1">Upload file</h2><button type="button" id="close-composer" class="button button-small" hidden>Close</button></div>
+                        <div class="panel-body">
+                        <p class="workspace-hint" id="composer-empty">Add a document to start a new version history.</p>
+                        <button id="composer-gate" class="button button-primary panel-gate-action" type="button">Unlock vault</button>
+                        <div class="composer-handoff" id="composer-handoff" hidden><span class="pending-file-mark" aria-hidden="true"></span><strong>Encrypted file stored</strong><p>Finish its blockchain record in Save activity. You don’t need to upload it again.</p><button class="button" type="button" id="show-save-activity">View save activity</button></div>
+                        <form id="upload-form" hidden>
+                            <div class="save-destination"><strong id="upload-heading">New document</strong><p id="upload-destination"></p></div>
+                            <div id="upload-inputs">
+                                <div id="file-fields">
+                                    <label id="drop-zone" class="drop-zone">
+                                        <input type="file" id="file-input" aria-label="Choose a file">
+                                        <span class="drop-icon" aria-hidden="true"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#upload"></use></svg></span>
+                                        <strong id="file-name">Choose a file or drop it here</strong>
+                                        <small id="file-detail">Up to 20 MiB</small>
+                                    </label>
+                                    <label class="field">Version note <span class="optional">optional</span><input id="version-note" type="text" maxlength="300" placeholder="What changed in this version?"></label>
+                                </div>
+                                <label class="field" id="token-field" hidden>Demo access code<input id="demo-token" type="password" autocomplete="off"></label>
+                            </div>
+                            <p class="feedback" id="upload-input-feedback" role="status"></p>
+                            <div class="workspace-actions" id="composer-actions">
+                                <button class="button button-primary" type="submit" form="upload-form" id="upload-submit"><span>Encrypt and save</span><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#arrow"></use></svg></button>
+                            </div>
+                        </form>
+                        </div>
+                    </section>
+
+                    <section id="save-panel" class="workspace-card workspace-progress" aria-labelledby="progress-heading">
+                        <div class="workspace-card-heading"><h2 id="progress-heading" tabindex="-1">Save activity</h2></div>
+                        <div class="save-milestone" id="save-milestone" aria-hidden="true" hidden><span class="milestone-symbol"><span class="milestone-sheet"></span><span class="milestone-check"></span></span><div><strong id="milestone-title"></strong><p id="milestone-copy"></p></div></div>
+                        <div class="panel-body">
+                        <div class="process-art" id="hero-art" aria-hidden="true">
+                            <div class="process-fallback"><span class="metal-glyph mark-lock"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#lock"></use></svg></span><span class="metal-glyph mark-store"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#box"></use></svg></span><span class="metal-glyph mark-verify"><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#shield"></use></svg></span></div>
+                            <canvas id="coin-scene"></canvas>
+                        </div>
+                        <div class="process-details">
+                        <ol class="upload-stages" aria-label="Save stages">
+                            <li data-progress="0"><i aria-hidden="true"></i> Encrypt</li>
+                            <li data-progress="1"><i aria-hidden="true"></i> Store</li>
+                            <li data-progress="2"><i aria-hidden="true"></i> Confirm</li>
+                        </ol>
+                        <p class="workspace-hint" id="process-empty">Encrypt on your device. Store on IPFS. Confirm with your wallet.</p>
+                        <button id="activity-gate" class="button button-primary panel-gate-action" type="button">Unlock to start</button>
+                        <p id="progress-file" class="progress-file" hidden></p>
+                        <section id="upload-visual" class="upload-visual" aria-label="Save status" hidden>
+                            <div class="upload-orb metal-glyph" aria-hidden="true"><svg class="glyph upload-mark" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#lock"></use></svg></div>
+                            <div class="upload-visual-copy"><strong id="upload-state-title">Ready</strong><div id="transfer-status" class="transfer-status" hidden><progress id="transfer-progress" max="100" value="0" aria-label="Encrypted bytes transferred"></progress><span id="transfer-amount"></span></div></div>
+                        </section>
+                        <p class="feedback" id="upload-feedback" role="status"></p>
+                        <details id="proof-error-details" class="proof-error-details" hidden><summary>Technical details</summary><p id="proof-error-copy"></p></details>
+                        <div id="recovery-strip" class="workspace-actions" hidden><p></p><button class="button button-primary" id="resume" type="button">Resume proof</button></div>
+                        <div class="workspace-actions" id="progress-actions">
+                            <button class="button button-small" type="button" id="discard" hidden>Discard pending upload</button>
+                            <button class="button button-primary" type="button" id="view-upload-result" hidden><span>View version record</span><svg class="glyph" aria-hidden="true" viewBox="0 0 24 24"><use href="/v2/assets/proof-icons.svg#arrow"></use></svg></button>
+                        </div>
+                        </div>
+                        </div>
+                    </section>
+
+                    <section id="history-panel" class="workspace-card workspace-history" aria-labelledby="history-heading">
+                        <div class="workspace-card-heading"><h2 id="history-heading" tabindex="-1">Version history</h2><button class="button button-small" id="append-version" type="button" hidden>Add version</button></div>
+                        <div class="panel-body">
+                        <p class="workspace-hint" id="history-empty">Select a document to see its versions.</p>
+                        <button id="history-gate" class="button button-primary panel-gate-action" type="button">Unlock vault</button>
+                        <div id="document-history" hidden>
+                            <div class="history-file"><strong id="document-heading">Document</strong><p id="document-subtitle"></p></div>
+                            <ol id="versions" class="versions" aria-label="Recorded versions"></ol>
+                            <button class="button button-small" id="more-versions" type="button" hidden>Load earlier versions</button>
+                            <p id="document-feedback" class="feedback" role="status"></p>
+                        </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    <noscript><p class="shell">Enable JavaScript to use the Dvault dashboard and connect your wallet.</p></noscript>
+
+    <dialog id="setup-dialog" aria-labelledby="setup-title">
+        <div class="dialog-card setup-card">
+            <div class="setup-top">
+                <img class="brand-mark" src="/v2/assets/brand-mark.png" width="44" height="44" alt="">
+                <button type="button" class="close-button" id="setup-close" data-close aria-label="Close setup">×</button>
+            </div>
+            <ol class="setup-steps" aria-label="Vault setup progress">
+                <li data-setup-step="0">Connect</li>
+                <li data-setup-step="1">Unlock</li>
+                <li data-setup-step="2">Save</li>
+            </ol>
+            <div>
+                <h2 id="setup-title">Connect your wallet</h2>
+                <p id="setup-copy">Your wallet signs version records so you can see which account saved them.</p>
+            </div>
+            <div id="setup-tip" class="setup-tip">On your phone, open Dvault in MetaMask’s built-in browser.</div>
+            <p id="setup-feedback" class="feedback" role="status"></p>
+            <div class="setup-art" aria-hidden="true"><img src="/v2/assets/brand-mark.png" width="384" height="384" alt=""></div>
+            <div class="dialog-actions"><button id="setup-next" class="button button-primary" type="button">Connect wallet</button></div>
+        </div>
+    </dialog>
+
+    <dialog id="account-dialog" aria-labelledby="account-heading">
+        <div class="dialog-card">
+            <div class="dialog-heading"><div><h2 id="account-heading">Connected wallet</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
+            <p id="account-address" class="account-address"></p>
+            <p>Local Hardhat · Chain 31337</p>
+            <div class="dialog-actions"><button type="button" class="button" id="disconnect-wallet">Disconnect wallet</button></div>
+        </div>
+    </dialog>
+
+    <dialog id="key-dialog" aria-labelledby="key-heading">
+        <form id="key-form" class="dialog-card">
+            <div class="dialog-heading"><div><h2 id="key-heading">Unlock your vault</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
+            <p>In this demo, your MetaMask wallet signs the proof. Enter your separate Dvault recovery key to unlock your files.</p>
+            <label class="field">Recovery key<input id="key-input" type="password" placeholder="DVK1-…" autocomplete="off" spellcheck="false" autocapitalize="off" required></label>
+            <div id="new-key-panel" class="recovery-key" hidden>
+                <output id="new-key-output"></output>
+                <button class="button button-small" id="copy-key" type="button">Copy key</button>
+                <label class="check"><input id="key-saved" type="checkbox"> I saved this key somewhere private.</label>
+            </div>
+            <details id="key-help" class="key-help">
+                <summary>Forgot your recovery key?</summary>
+                <p id="key-recovery-status" role="status"></p>
+                <p>Saved files still need the original Dvault key. To test with a separate vault, you can switch accounts in the same MetaMask wallet and stay on the Dvault demo network.</p>
+            </details>
+            <p class="feedback" id="key-feedback" role="status"></p>
+            <div class="dialog-actions"><button class="button" type="button" id="generate-key">Create a recovery key</button><button class="button button-primary" type="submit" id="unlock-submit">Unlock</button></div>
+        </form>
+    </dialog>
+
+    <dialog id="help-dialog" aria-labelledby="help-heading">
+        <div class="dialog-card">
+            <div class="dialog-heading"><div><h2 id="help-heading">What stays private?</h2></div><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
+            <div class="install-tools"><button id="install-app" class="button button-small" type="button" hidden>Install Dvault</button><p id="install-guidance" hidden role="status"></p></div>
+            <dl class="help-list">
+                <div><dt>Encrypt</dt><dd>AES-GCM encrypts files, filenames, and version notes in your browser. Keep your separate Dvault recovery key. Dvault cannot reset it.</dd></div>
+                <div><dt>Store</dt><dd>IPFS holds the encrypted file. File retrieval depends on the pin remaining available. Keep a separate backup for files you can’t lose.</dd></div>
+                <div><dt>Verify</dt><dd>The contract appends each version and its ciphertext fingerprint. The wallet address, timing, and storage identifier are public. The app compares encrypted bytes with the recorded fingerprint before decrypting.</dd></div>
+                <div><dt>Demo network</dt><dd>The local class demo can be reset by its operator. Use synthetic files for demos. Start on the same wallet and use the same recovery key on each device.</dd></div>
+            </dl>
+        </div>
+    </dialog>
+    <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

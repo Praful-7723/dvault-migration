@@ -1,0 +1,44 @@
+@font-face {
+    font-family: "Dvault Prototype";
+    src: url("/v2/assets/prototype.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Dvault Display";
+    src: url("/v2/assets/bricolage-grotesque.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 200 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Dvault UI";
+    src: url("/v2/assets/geist-variable.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Dvault Mono";
+    src: url("/v2/assets/geist-mono-medium.woff2") format("woff2");
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+:root {
+    --font-display: "Dvault Display", "Dvault UI", sans-serif;
+    --font-ui: "Dvault UI", sans-serif;
+    --font-mono: "Dvault Mono", ui-monospace, monospace;
+}
+
+:root .recovery-key output,
+:root .version dd,
+:root .diff-lines li,
+:root .account-address {
+    font-family: var(--font-mono);
+}

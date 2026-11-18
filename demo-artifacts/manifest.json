@@ -1,0 +1,23 @@
+{
+  "solidity": "0.8.24",
+  "contracts": [
+    {
+      "source": "contracts/FileStorage.sol",
+      "sourceSha256": "68860ece00b7fff8ffb1441b9c479f32fef0da17bdeb1a703b83f76beaea8dbd",
+      "artifact": "FileStorage.json",
+      "artifactSha256": "3767b5ac2f73acdad16f61fb6c16f1c89a98cd5cb45dffb2db999b882a98e1d5"
+    },
+    {
+      "source": "contracts/AccessControl.sol",
+      "sourceSha256": "0da52f8cb3f23d2d3c26062c4a5fb7b29cfc961fd1cde56222f3b3d5aaec6623",
+      "artifact": "AccessControl.json",
+      "artifactSha256": "9423f0f388a1543d7c69131006e56dcde4973e356779c3631495daf6f9a2e994"
+    },
+    {
+      "source": "contracts/VersionVault.sol",
+      "sourceSha256": "c86caf99a923e3b6540afc8f86c7d503a4587cb1fb509471d364a229d07eee3d",
+      "artifact": "VersionVault.json",
+      "artifactSha256": "b2d2f5efe6c3e9f37b64cf121a8e108f2ab54dd28007b37d0cf8e5012c1f11f6"
+    }
+  ]
+}

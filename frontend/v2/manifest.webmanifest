@@ -1,0 +1,31 @@
+{
+  "id": "/v2/",
+  "name": "Dvault",
+  "short_name": "Dvault",
+  "description": "Encrypt documents and verify their version history.",
+  "start_url": "/v2/app/",
+  "scope": "/v2/",
+  "display": "standalone",
+  "theme_color": "#0b0a0d",
+  "background_color": "#0b0a0d",
+  "icons": [
+    {
+      "src": "/v2/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/v2/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/v2/assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

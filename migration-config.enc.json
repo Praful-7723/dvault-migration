@@ -1,0 +1,9 @@
+{
+  "format": "dvault-env-v1",
+  "algorithm": "aes-256-gcm",
+  "kdf": "scrypt",
+  "salt": "CACgmwyMCfkPe5sfVjIazA==",
+  "iv": "KikJKP7+9k+7ic1H",
+  "tag": "1DWiWPbRZMKrSHOSKb+9+A==",
+  "ciphertext": "YMnYujVBmq0cw8rdzZaGBgSnhH9JNfoCUFjoU0oIT0xb8g21xT91emJbk3IYvMxJnGNPa5iB82rbsws4qquqePDijc3p2H1qW3JzGlH75MKMhiFJQw0gx+HcBA3lLPZecXoONAXM58cOj3g2qyUqVuvCSf5l2ybx0Bn0AqkmiWmpfweP90XvcwHUZWChq4TV2ROD8vr0e982mNpxjzTekosnM8OQO0TR2d3PiyIoMBXRFX9QrmhZ9lJ8d7g8/iC/U8XZApVu3JZQSSfHuF4N+WzCsq0eKdGmmUDmBGBzom+YF2mzj+dSKbYBhnxvnunQ/N30D4BGSfmwhActvjKhSaiei7cQUSoR2maVwohPpWMT4XfOAyolGQDNvT/l3gi+1OiSq/TWZT1FBc3PWNBUgOuh9YbbZGPNG2DdqeckdNrdMH2IBrAoxD+U9GcPxno+VBTwEqpZSkmFPdsPs8mFEU7ih28O1aTKytRX7/uwbfhunbRiW7EQVYCxUw4P4mHRPSm5hEZ2vaMdcssq3JwcAOuGQblIPtoK1YhDTmtBRGVGQEE7d3YZGEPxaBAQoKLbkDHEvrVs"
+}

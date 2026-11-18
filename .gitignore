@@ -1,0 +1,17 @@
+node_modules
+artifacts
+cache
+frontend/config.js
+deployments
+.env
+.dvault-demo/
+.dvault-demo-staging.*/
+.dvault-font-preview/
+.npm-cache/
+.dvault-install.lock
+.dvault-unlock.lock
+.DS_Store
+*.log
+ENVIRONMENT.private.txt
+
+.dvault-unlock.lock
